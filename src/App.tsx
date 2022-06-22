@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css';
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
+import Home from "./Pages/Home";
+import Contacts from "./Pages/Contacts/Contacts";
+import {AnimatePresence} from "framer-motion";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const location = useLocation();
+
+    return (
+        <div className="App">
+            <Header/>
+            <AnimatePresence exitBeforeEnter>
+                <Routes location={location} key={location.pathname}>
+                    <Route path="/home" element={<Home/>}/>
+                    <Route path="/contacts" element={<Contacts/>}/>
+                    <Route path="/" element={<Navigate to='/home'/>}/>
+                </Routes>
+            </AnimatePresence>
+
+
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;
