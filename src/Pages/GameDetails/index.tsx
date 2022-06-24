@@ -1,5 +1,5 @@
 import {Link, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {GameService} from "../../services/GameService";
 import {Game} from "../../types/Game";
 import {Swiper, SwiperSlide} from "swiper/react";
@@ -7,6 +7,7 @@ import './GameDetails.scss'
 import PlatformsBadge from "../../components/PlatformsBadge";
 import {SwiperOptions, Navigation, Autoplay} from "swiper";
 import Transition from "../../components/Transition";
+import {UserContext} from "../../components/UserContext";
 
 type Props = {}
 
@@ -16,6 +17,9 @@ const GameDetails = (props: Props) => {
     const [screenshots, setScreens] = useState<string[]>([])
     const [additionalInfoOpened, setOpened] = useState(false)
     const [loading, setLoading] = useState(true);
+    const userContext = useContext(UserContext);
+
+    const isInCart = game && userContext?.isInCart(game);
 
     useEffect(() => {
         setLoading(true);
@@ -86,9 +90,19 @@ const GameDetails = (props: Props) => {
                             </div>
                             <div className="bottom-box">
                                 <div className="price">£ 4.99</div>
-                                <div className="add-to-cart hover-lighter">
-                                    Add to cart
-                                </div>
+                                {
+                                    isInCart &&
+                                    <div onClick={() => userContext?.removeGameFromCart(game)} className="add-to-cart hover-lighter">
+                                        Remove from cart
+                                    </div>
+
+                                }
+
+                                { !isInCart &&
+                                    <div onClick={() => userContext?.addGameToCart(game)} className="add-to-cart hover-lighter">
+                                        Add to cart
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
