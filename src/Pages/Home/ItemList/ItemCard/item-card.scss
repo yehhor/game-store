@@ -32,13 +32,11 @@
     text-align: left;
     padding: 15px;
     .hover-show {
-      height: 0;
       transition: .3s, opacity .3s .1s;
       overflow: hidden;
       opacity: 0;
     }
     &:hover .hover-show {
-      height: 120px;
       opacity: 100%;
     }
     .game-title {
