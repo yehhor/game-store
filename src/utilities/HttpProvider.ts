@@ -4,13 +4,11 @@ const API_URL = 'https://api.rawg.io/api/'
 const cachedRequests: Record<string, unknown> =
     JSON.parse(localStorage.getItem('cachedRequests') || '{}');
 
-function get<T>(endpoint: string, params?: Record<string, string>): Response<T> {
+function get<T>(endpoint: string, params?: Record<string, string>): Promise<T> {
     const searchParams = new URLSearchParams(params);
     const endpointAndParams = `${endpoint}?${searchParams}`;
     if (cachedRequests[endpointAndParams])
-        return new Promise(resolve => {
-            resolve(cachedRequests[endpointAndParams] as Response<T>)
-        })
+        return Promise.resolve(cachedRequests[endpointAndParams] as T)
 
     return fetch(`${API_URL}${endpointAndParams}&key=${API_KEY}`)
         .then(r => r.json())
@@ -20,13 +18,6 @@ function get<T>(endpoint: string, params?: Record<string, string>): Response<T> 
             return r;
         })
 };
-type Response<T> = Promise<ApiResponse<T>>
-
-interface ApiResponse<T> {
-    next: string;
-    previous: string;
-    results: T[]
-}
 
 export const apiProvider = {
     get,

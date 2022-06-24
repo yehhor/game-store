@@ -1,17 +1,16 @@
 import {Game} from "../../../../types/Game";
 import './item-card.scss'
 import PlatformsBadge from "../../../../components/PlatformsBadge";
-import {motion} from "framer-motion";
-import Transition from "../../../../components/Transition";
 
 interface Props {
-    game: Game
+    game: Game,
+    handleClick: () => void
 }
 
 
-function ItemCard({game}: Props) {
+function ItemCard({game, handleClick}: Props) {
     return (
-        <div className="game-card-container"  >
+        <div onClick={handleClick} className="game-card-container">
             <div className="image-container">
                 <img src={game.background_image} alt="bgimg.pn"/>
             </div>

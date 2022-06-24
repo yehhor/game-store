@@ -1,11 +1,13 @@
 @use "header";
+:root {
+  --gray: #ffffff29;
+}
 @font-face {
   font-family: "GT walsheim pro";
   src: url('../fonts/gtwalsheimpro_condensedmedium.otf'),
   url("../fonts/gtwalsheimpro_condensedmedium.otf") format("opentype");
 }
 @import-normalize;
-
 
 body {
   font-family: "GT walsheim pro", Arial, serif;
@@ -14,9 +16,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #151515;
   color: #fff;
+  padding: 0 50px;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+  transition: .2s;
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.hover-lighter:hover {
+  filter: brightness(1.1);
 }

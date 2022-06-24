@@ -6,6 +6,9 @@ import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import Home from "./Pages/Home";
 import Contacts from "./Pages/Contacts/Contacts";
 import {AnimatePresence} from "framer-motion";
+import GameDetails from "./Pages/GameDetails";
+import 'swiper/css'
+
 
 function App() {
     const location = useLocation();
@@ -17,12 +20,12 @@ function App() {
                 <Routes location={location} key={location.pathname}>
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/contacts" element={<Contacts/>}/>
+                    <Route path="/game/:gameId" element={<GameDetails/>}/>
                     <Route path="/" element={<Navigate to='/home'/>}/>
                 </Routes>
             </AnimatePresence>
 
 
-            <Footer/>
         </div>
     );
 }

@@ -30,11 +30,13 @@ function Transition(props: Props) {
     const transitionIn = {
         type: 'spring',
         duration: durationIn,
+
     };
     const animationConfig = {
         in: {
             opacity: 0,
             ...directions[direction],
+            staggerChildren: 1,
         },
         animate: {
             opacity: 1,
@@ -42,6 +44,7 @@ function Transition(props: Props) {
             transition: {
                 x: transitionIn,
                 y: transitionIn,
+                staggerChildren: 0.4,
             },
         },
         out: {
