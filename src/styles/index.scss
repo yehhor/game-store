@@ -1,6 +1,7 @@
 @use "header";
+@use "cart";
 :root {
-  --gray: #ffffff29;
+  --gray: rgba(255, 255, 255, 0.97);
 }
 @font-face {
   font-family: "GT walsheim pro";
@@ -34,6 +35,9 @@ a {
   }
 }
 
-.hover-lighter:hover {
-  filter: brightness(1.1);
+.hover-lighter{
+  user-select: none;
+  &:hover {
+    filter: brightness(1.1);
+  }
 }

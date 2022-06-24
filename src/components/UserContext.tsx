@@ -13,10 +13,12 @@ export interface UserContextType {
     addGameToCart: (game: Game) => void,
     removeGameFromCart: (game: Game) => void,
     setUser: (user: User) => void,
-    isInCart: (game: Game) => boolean
+    isInCart: (game: Game) => boolean,
+    getTotalPrice: () => number
 }
 
-const UserContext = createContext<UserContextType | null>(null);
+// todo is it ok to fake Type in Context?
+const UserContext = createContext<UserContextType>({} as UserContextType);
 
 function UserContextProvider(props: PropsWithChildren) {
     const [user, setUser] = useState<User | null>(null);
@@ -34,6 +36,8 @@ function UserContextProvider(props: PropsWithChildren) {
 
     const isInCart = (game: Game) => !!cart.find(g => g.id === game.id)
 
+    const getTotalPrice = () => cart.reduce((p, c) => p + (c.price || 2.99) ,0)
+
     const contextValue = {
         user,
         cart,
@@ -41,6 +45,7 @@ function UserContextProvider(props: PropsWithChildren) {
         addGameToCart,
         removeGameFromCart,
         isInCart,
+        getTotalPrice
     }
 
     return (

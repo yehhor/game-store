@@ -3,7 +3,11 @@ import {FormEvent, useContext, useState} from "react";
 import {SearchContext, SearchContextType} from "./SearchContext";
 import {RiSearchLine} from "react-icons/ri";
 
-function Header() {
+type Props = {
+    handleCartClick: () => void
+}
+
+function Header({handleCartClick}: Props) {
     const {updateSearchText} = useContext(SearchContext) as SearchContextType;
     const [text, setText] = useState('')
     const handleSubmit = (e: FormEvent) => {
@@ -23,7 +27,10 @@ function Header() {
                     <RiSearchLine />
                 </button>
             </form>
-            <span>cart icon</span>
+            <span onClick={e => {
+                e.stopPropagation();
+                handleCartClick()
+            }} className='hover-lighter'>cart icon</span>
         </header>
     )
 }
