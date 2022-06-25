@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/game-store/static/css/main.d89aaed6.css",
-    "main.js": "/game-store/static/js/main.a8d4423f.js",
+    "main.css": "/game-store/static/css/main.a1f16db9.css",
+    "main.js": "/game-store/static/js/main.ef495b45.js",
     "static/js/787.96040b36.chunk.js": "/game-store/static/js/787.96040b36.chunk.js",
     "static/media/gtwalsheimpro_condensedmedium.otf": "/game-store/static/media/gtwalsheimpro_condensedmedium.2fc469dcf5a21a6735b4.otf",
     "index.html": "/game-store/index.html",
-    "main.d89aaed6.css.map": "/game-store/static/css/main.d89aaed6.css.map",
-    "main.a8d4423f.js.map": "/game-store/static/js/main.a8d4423f.js.map",
+    "main.a1f16db9.css.map": "/game-store/static/css/main.a1f16db9.css.map",
+    "main.ef495b45.js.map": "/game-store/static/js/main.ef495b45.js.map",
     "787.96040b36.chunk.js.map": "/game-store/static/js/787.96040b36.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d89aaed6.css",
-    "static/js/main.a8d4423f.js"
+    "static/css/main.a1f16db9.css",
+    "static/js/main.ef495b45.js"
   ]
 }
