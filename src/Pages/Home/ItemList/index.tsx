@@ -6,6 +6,7 @@ import {SearchContext, SearchContextType} from "../../../components/SearchContex
 import {useNavigate} from "react-router-dom";
 import {GameService} from "../../../services/GameService";
 import Transition from "../../../components/Transition";
+import {BASE_URL} from "../../../index";
 
 
 function ItemList() {
@@ -23,7 +24,7 @@ function ItemList() {
             })
     }, [page, text])
 
-    const redirectToGame = (id: number) => navigate(`/game/${id}`)
+    const redirectToGame = (id: number) => navigate(`${BASE_URL}/game/${id}`)
 
     const games = gamesData.map(game => (
         <ItemCard key={game.id}
@@ -32,10 +33,14 @@ function ItemList() {
     ))
 
     return (
+        <>
+            <h1>Top Trending</h1>
+            <Transition direction='right' className='game-cards-container'>
 
-        <Transition direction='right' className='game-cards-container'>
-            {loading ? 'loading' : games}
-        </Transition>
+                {loading ? 'loading' : games}
+            </Transition>
+        </>
+
     )
 }
 

@@ -80,9 +80,9 @@ const GameDetails = (props: Props) => {
                                         <p>Developers: {game.developers.map(d => d.name)}</p>
                                         <p>Publishers: {game.publishers.map(p => p.name)}</p>
                                     </div>
-                                    <div className="more">
-                                        <button onClick={() => setOpened(!additionalInfoOpened)}
-                                                className="switch hover-lighter">
+                                    <div className="more hover-lighter" onClick={() => setOpened(!additionalInfoOpened)}>
+                                        <button
+                                                className="switch ">
                                             {additionalInfoOpened ? 'Hide' : 'More'}
                                         </button>
                                     </div>

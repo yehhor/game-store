@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import {FormEvent, useContext, useState} from "react";
 import {SearchContext, SearchContextType} from "./SearchContext";
 import {RiSearchLine} from "react-icons/ri";
+import {BASE_URL} from "../index";
 
 type Props = {
     handleCartClick: () => void
@@ -18,8 +19,8 @@ function Header({handleCartClick}: Props) {
     return (
         <header>
             <div>
-                <Link to='/'>Gaming store</Link>
-                <Link to='/contacts'>Contact</Link>
+                <Link to={`${BASE_URL}`}>Gaming store</Link>
+                <Link to={`${BASE_URL}/contacts`}>Contact</Link>
             </div>
             <form className='search' onSubmit={handleSubmit}>
                 <input type="text" onChange={e => setText(e.target.value)}/>

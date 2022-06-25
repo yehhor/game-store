@@ -10,6 +10,7 @@ import GameDetails from "./Pages/GameDetails";
 import 'swiper/css'
 import {Cart} from "./components/Cart";
 import {useClickOutside} from "./components/useClickOutside";
+import {BASE_URL} from "./index";
 
 
 function App() {
@@ -31,10 +32,10 @@ function App() {
             <Cart ref={ref} cartOpen={cartOpen} />
             <AnimatePresence exitBeforeEnter>
                 <Routes location={location} key={location.pathname}>
-                    <Route path="/game-store/home" element={<Home/>}/>
-                    <Route path="/game-store/contacts" element={<Contacts/>}/>
-                    <Route path="/game-store/game/:gameId" element={<GameDetails/>}/>
-                    <Route path="/" element={<Navigate to='/game-store'/>}/>
+                    <Route path={`${BASE_URL}/home`} element={<Home/>}/>
+                    <Route path={`${BASE_URL}/contacts`} element={<Contacts/>}/>
+                    <Route path={`${BASE_URL}/game/:gameId`} element={<GameDetails/>}/>
+                    <Route path={BASE_URL} element={<Navigate to={`${BASE_URL}/home`} />}/>
                 </Routes>
             </AnimatePresence>
 

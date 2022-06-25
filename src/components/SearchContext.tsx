@@ -1,5 +1,6 @@
 import {createContext, PropsWithChildren, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {BASE_URL} from "../index";
 
 export interface SearchContextType {
     text: string,
@@ -12,7 +13,7 @@ function SearchContextProvider(props: PropsWithChildren) {
     const [text, setText] = useState('');
     const navigate = useNavigate();
     function updateSearchText(text: string) {
-        navigate('/home');
+        navigate(`${BASE_URL}/home`);
         setText(text);
     }
 

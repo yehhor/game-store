@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import {SearchContextProvider} from "./components/SearchContext";
 import {UserContextProvider} from "./components/UserContext";
+export const BASE_URL = '/game-store'
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
