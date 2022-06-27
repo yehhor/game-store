@@ -5,7 +5,9 @@ export interface User {
     name: string
 }
 
-export type Cart = Game[]
+export type Cart = {
+    [key: string]: Game,
+}
 
 export interface UserContextType {
     user: User | null,
@@ -14,7 +16,7 @@ export interface UserContextType {
     removeGameFromCart: (game: Game) => void,
     setUser: (user: User) => void,
     isInCart: (game: Game) => boolean,
-    getTotalPrice: () => number
+    getTotalPrice: () => number,
 }
 
 // todo is it ok to fake Type in Context?
@@ -22,21 +24,27 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 
 function UserContextProvider(props: PropsWithChildren) {
     const [user, setUser] = useState<User | null>(null);
-    const [cart, setCart] = useState<Game[]>([]);
+    const [cart, setCart] = useState<Cart>({});
 
-    const addGameToCart = (game: Game) => {
-        if(isInCart(game))
-            return;
-        setCart(prevCart => [...prevCart, game])
+    const addGameToCart = (game: Game) => setCart(prevCart => ({
+        ...prevCart,
+        [game.id]: game
+    }))
+
+
+    const removeGameFromCart = (gameToRemove: Game) => {
+        const newCart = Object.entries(cart)
+            .filter(([, game]) => game.id !== gameToRemove.id)
+            .reduce((cartObj: Cart, [gameId, gameObj]) => {
+                cartObj[gameId] = gameObj
+                return cartObj
+            }, {})
+        setCart(newCart)
     }
 
-    const removeGameFromCart = (game: Game) => {
-        setCart(prevCart => prevCart.filter(g => g.id !== game.id))
-    }
+    const isInCart = (game: Game) => !!cart[game.id]
 
-    const isInCart = (game: Game) => !!cart.find(g => g.id === game.id)
-
-    const getTotalPrice = () => cart.reduce((p, c) => p + (c.price || 2.99) ,0)
+    const getTotalPrice = () => Object.values(cart).reduce((p, c) => p + 2.99, 0)
 
     const contextValue = {
         user,
@@ -45,7 +53,7 @@ function UserContextProvider(props: PropsWithChildren) {
         addGameToCart,
         removeGameFromCart,
         isInCart,
-        getTotalPrice
+        getTotalPrice,
     }
 
     return (

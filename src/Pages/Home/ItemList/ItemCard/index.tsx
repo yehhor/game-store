@@ -1,57 +1,50 @@
 import {Game} from "../../../../types/Game";
 import './item-card.scss'
 import PlatformsBadge from "../../../../components/PlatformsBadge";
-import {useContext, useEffect, useRef, useState} from "react";
-import {UserContext} from "../../../../components/UserContext";
+import {useEffect, useMemo, useRef, useState} from "react";
+import {Cart} from "../../../../components/UserContext";
 
 interface Props {
     game: Game,
-    handleClick: () => void
+    handleClick: () => void,
+    isGameInCart: (game: Game) => boolean,
+    removeGameFromCart: (game: Game) => void,
+    addGameToCart: (game: Game) => void,
+    cart: Cart
 }
 
-function ItemCard({game, handleClick}: Props) {
+function ItemCard({game, handleClick, removeGameFromCart, addGameToCart, isGameInCart, cart}: Props) {
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState('auto')
-    const userContext = useContext(UserContext);
-    const isGameInCart = userContext?.isInCart(game);
+    const isInCart = useMemo(() => isGameInCart(game), [cart])
 
     useEffect(() => {
         const {current} = ref;
         const height = `${current?.clientHeight}px`;
+        current?.classList.add('height-set')
         setHeight(height);
-        current && (current.style.height = '0');
     }, [])
-    const hover = () => {
-        const {current} = ref;
-        current && (current.style.height = height)
-    }
 
-    const disableHover = () => {
-        const {current} = ref;
-        current && (current.style.height = '0')
-    }
     return (
         <div onClick={handleClick} className="game-card-container">
             <div className="image-container">
                 <img src={game.background_image} alt="bgimg.pn"/>
             </div>
             <div className="description"
-                 onMouseEnter={hover}
-                 onMouseLeave={disableHover}
             >
                 <div className='title-line' onClick={e => e.stopPropagation()}>
                     {
-                        !isGameInCart &&
+                        !isInCart &&
                         <button className='add-to-cart'
-                                onClick={() => userContext?.addGameToCart(game)}
+                                onClick={() => addGameToCart(game)}
                         >
                             Add to cart +
                         </button>
                     }
                     {
-                        isGameInCart &&
+                        isInCart &&
                         <button className='add-to-cart'
-                                onClick={() => userContext?.removeGameFromCart(game)}
+                                onClick={() => removeGameFromCart(game)}
                         >
                             Remove from cart
                         </button>
@@ -59,6 +52,7 @@ function ItemCard({game, handleClick}: Props) {
                     <span>{game.price || '£2.99'}</span>
                 </div>
                 <div className="hover-show"
+                     style={{height: height || 'auto'}}
                      ref={ref}
                 >
                     <div className='game-title'>{game.name}</div>

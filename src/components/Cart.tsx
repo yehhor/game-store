@@ -1,5 +1,7 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "./UserContext";
+import {Game} from "../types/Game";
+import {Link} from "react-router-dom";
 
 type Props = {
     cartOpen: boolean,
@@ -7,14 +9,15 @@ type Props = {
 
 export const Cart = React.forwardRef<HTMLDivElement, Props>(({cartOpen}, ref) => {
     const {cart, removeGameFromCart, getTotalPrice} = useContext(UserContext)
-    const games = cart.map(g => (
+
+    const games = Object.values(cart).map(g => (
         <li key={g.id}>
             <span onClick={(e) => {
                 //todo react renders out element faster than click event outside click fires
                 e.stopPropagation();
                 removeGameFromCart(g)
             }} className='remove-from-cart hover-lighter'>X</span>
-            {g.name}
+            <Link to={`/game/${g.id}`}>{g.name}</Link>
         </li>
     ))
 

@@ -36,6 +36,10 @@
       overflow: hidden;
       opacity: 0;
     }
+    &:not(:hover) .hover-show.height-set {
+      height: 0!important;
+    }
+
     &:hover .hover-show {
       opacity: 100%;
     }

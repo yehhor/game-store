@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {GameService} from "../../../services/GameService";
 import Transition from "../../../components/Transition";
 import {BASE_URL} from "../../../index";
+import {UserContext} from "../../../components/UserContext";
 
 
 function ItemList() {
@@ -15,13 +16,13 @@ function ItemList() {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate();
     const {text} = useContext(SearchContext) as SearchContextType
+    const {addGameToCart, removeGameFromCart, isInCart, cart} = useContext(UserContext);
+
     useEffect(() => {
         setLoading(true);
         GameService.getGames({page: String(page), search: text})
-            .then(games => {
-                setGames(games.results);
-                setLoading(false);
-            })
+            .then(games => setGames(games.results))
+            .finally(() => setLoading(false))
     }, [page, text])
 
     const redirectToGame = (id: number) => navigate(`${BASE_URL}/game/${id}`)
@@ -29,6 +30,10 @@ function ItemList() {
     const games = gamesData.map(game => (
         <ItemCard key={game.id}
                   handleClick={() => redirectToGame(game.id)}
+                  addGameToCart={addGameToCart}
+                  isGameInCart={isInCart}
+                  removeGameFromCart={removeGameFromCart}
+                  cart={cart}
                   game={game}/>
     ))
 
@@ -36,7 +41,6 @@ function ItemList() {
         <>
             <h1>Top Trending</h1>
             <Transition direction='right' className='game-cards-container'>
-
                 {loading ? 'loading' : games}
             </Transition>
         </>
