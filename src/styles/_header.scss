@@ -31,20 +31,14 @@ header {
 
     }
     input {
-      background-color: var(--gray);
       height: 45px;
       width: 90%;
       text-indent: 15px;
-      border: none;
       line-height: 30px;
       border-radius: 15px;
-      transition: .3s;
-      outline: none;
       font-size: 25px;
       margin-right: 10px;
-      &:focus {
-        background-color: #fff;
-      }
+
     }
 
   }

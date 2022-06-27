@@ -35,7 +35,8 @@ function Header() {
                 <span onClick={e => {
                     e.stopPropagation();
                     setCartOpen(true)
-                }} className='hover-lighter'>cart icon</span>
+                }} className='hover-lighter'>Cart</span>
+                <Link to={'/login'}>login</Link>
             </header>
         </>
 

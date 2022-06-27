@@ -41,3 +41,18 @@ a {
     filter: brightness(1.1);
   }
 }
+
+input {
+  background-color: var(--gray);
+  border: none;
+  transition: .3s;
+  outline: none;
+  margin: 5px;
+  height: 18px;
+  text-indent: 5px;
+  padding: 3px;
+  border-radius: 5px;
+  &:focus {
+    background-color: #fff;
+  }
+}
