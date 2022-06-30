@@ -11,7 +11,7 @@ import 'swiper/css'
 import {Cart} from "./components/Cart";
 import {useClickOutside} from "./components/useClickOutside";
 import {BASE_URL} from "./index";
-import {Index} from "./Pages/Login";
+import {Login} from "./Pages/Login";
 
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
             <AnimatePresence exitBeforeEnter>
                 <Routes location={location} key={location.pathname}>
                     <Route path={`${BASE_URL}/home`} element={<Home/>}/>
-                    <Route path={`${BASE_URL}/login`} element={<Index/>}/>
+                    <Route path={`${BASE_URL}/login`} element={<Login/>}/>
                     <Route path={`${BASE_URL}/contacts`} element={<Contacts/>}/>
                     <Route path={`${BASE_URL}/game/:gameId`} element={<GameDetails/>}/>
                     <Route path={BASE_URL} element={<Navigate to={`${BASE_URL}/home`} />}/>

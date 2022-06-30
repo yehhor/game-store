@@ -1,16 +1,19 @@
 import {Link} from "react-router-dom";
-import React, {FormEvent, useContext, useState} from "react";
+import React, {FormEvent, useContext, useMemo, useState} from "react";
 import {SearchContext, SearchContextType} from "./SearchContext";
 import {RiSearchLine} from "react-icons/ri";
 import {BASE_URL} from "../index";
 import {Cart} from "./Cart";
 import {useClickOutside} from "./useClickOutside";
+import {UserContext} from "./UserContext";
 
 function Header() {
     const {updateSearchText} = useContext(SearchContext) as SearchContextType;
+    const {cart} = useContext(UserContext);
     const [cartOpen, setCartOpen] = useState(false)
     const [text, setText] = useState('')
     const ref = React.createRef<HTMLDivElement>()
+    const cartItems = useMemo(() => Object.keys(cart).length, [cart])
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         updateSearchText(text);
@@ -32,11 +35,14 @@ function Header() {
                         <RiSearchLine/>
                     </button>
                 </form>
-                <span onClick={e => {
-                    e.stopPropagation();
-                    setCartOpen(true)
-                }} className='hover-lighter'>Cart</span>
-                <Link to={'/login'}>login</Link>
+                <Link to={`${BASE_URL}/login`}>login</Link>
+                <div className="cart-link">
+                     <span onClick={e => {
+                         e.stopPropagation();
+                         setCartOpen(true)
+                     }} className='hover-lighter'>Cart</span>
+                    <span className='cart-items'> ({cartItems})</span>
+                </div>
             </header>
         </>
 

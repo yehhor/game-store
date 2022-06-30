@@ -8,20 +8,22 @@ type FormData = {
     confirm: string
 }
 
-export const Index = () => {
+
+export const Login = () => {
     const [{login, password, confirm}, setFormData] = useState<FormData>({login: '', password: '', confirm: ''})
     const [errorMessage, setErrorMessage] = useState<ValidationMessage[]>([])
     const [pwMatch, setPwMatch] = useState<boolean>(false)
     const onChange = ({target}: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = target;
-        if ((name === 'password') || (name === 'confirm')) {
-            setErrorMessage(validate(value))
-        }
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }))
+        // const {name, value} = target;
+        // if ((name === 'password') || (name === 'confirm')) {
+        //     setErrorMessage(validate(value))
+        // }
+        // setFormData(prevState => ({
+        //     ...prevState,
+        //     [name]: value
+        // }))
     }
+
 
     useEffect(() => {
         setPwMatch(password === confirm)
@@ -34,7 +36,7 @@ export const Index = () => {
     const errorMsgsDom = errorMessage.map(m => (
         <div key={m.message}>{m.message}</div>
     ))
-
+    let test = 1;
 
     return (
         <div className='login-page'>

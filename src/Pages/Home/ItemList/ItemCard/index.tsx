@@ -4,7 +4,7 @@ import PlatformsBadge from "../../../../components/PlatformsBadge";
 import {useEffect, useMemo, useRef, useState} from "react";
 import {Cart} from "../../../../components/UserContext";
 
-interface Props {
+export interface GameCardProps {
     game: Game,
     handleClick: () => void,
     isGameInCart: (game: Game) => boolean,
@@ -13,7 +13,7 @@ interface Props {
     cart: Cart
 }
 
-function ItemCard({game, handleClick, removeGameFromCart, addGameToCart, isGameInCart, cart}: Props) {
+function ItemCard({game, handleClick, removeGameFromCart, addGameToCart, isGameInCart, cart}: GameCardProps) {
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState('auto')
     const isInCart = useMemo(() => isGameInCart(game), [cart])
