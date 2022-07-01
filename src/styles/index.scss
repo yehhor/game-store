@@ -1,7 +1,7 @@
 @use "header";
 @use "cart";
 :root {
-  --gray: rgba(255, 255, 255, 0.97);
+  --gray: #282828;
 }
 @font-face {
   font-family: "GT walsheim pro";
@@ -52,6 +52,9 @@ input {
   text-indent: 5px;
   padding: 3px;
   border-radius: 5px;
+  &.error {
+    border-color: red;
+  }
   &:focus {
     background-color: #fff;
   }

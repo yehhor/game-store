@@ -9,7 +9,7 @@ import {UserContext} from "./UserContext";
 
 function Header() {
     const {updateSearchText} = useContext(SearchContext) as SearchContextType;
-    const {cart} = useContext(UserContext);
+    const {cart, user, logout} = useContext(UserContext);
     const [cartOpen, setCartOpen] = useState(false)
     const [text, setText] = useState('')
     const ref = React.createRef<HTMLDivElement>()
@@ -18,6 +18,7 @@ function Header() {
         e.preventDefault();
         updateSearchText(text);
     }
+
 
     useClickOutside(ref, () => setCartOpen(false))
 
@@ -35,7 +36,14 @@ function Header() {
                         <RiSearchLine/>
                     </button>
                 </form>
-                <Link to={`${BASE_URL}/login`}>login</Link>
+                {user ?
+                    <span onClick={logout}>Logout</span>
+                    :
+                    <Link to={`${BASE_URL}/login`}>Login</Link>
+                }
+                {
+                    !user && <Link to={`${BASE_URL}/reg`}>Reg</Link>
+                }
                 <div className="cart-link">
                      <span onClick={e => {
                          e.stopPropagation();

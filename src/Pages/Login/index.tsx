@@ -1,64 +1,52 @@
-import React, {ReactElement, useEffect, useState} from "react";
-import {validate, ValidationMessage} from "../../utilities/PasswordValidator";
-import './login.scss'
+import React, {useContext, useState} from 'react';
+import {UsersService} from "../../services/UserService";
+import {UserContext} from "../../components/UserContext";
+import {useNavigate} from "react-router-dom";
+import {BASE_URL} from "../../index";
 
-type FormData = {
-    login: string,
-    password: string,
-    confirm: string
-}
-
-
-export const Login = () => {
-    const [{login, password, confirm}, setFormData] = useState<FormData>({login: '', password: '', confirm: ''})
-    const [errorMessage, setErrorMessage] = useState<ValidationMessage[]>([])
-    const [pwMatch, setPwMatch] = useState<boolean>(false)
+const Login = () => {
+    const [{login, password}, setFormData] = useState({login: '', password: ''});
+    const [incorrentLogin, setIncorrentLogin] = useState(false)
+    const navigate = useNavigate();
+    const userCtx = useContext(UserContext);
     const onChange = ({target}: React.ChangeEvent<HTMLInputElement>) => {
-        // const {name, value} = target;
-        // if ((name === 'password') || (name === 'confirm')) {
-        //     setErrorMessage(validate(value))
-        // }
-        // setFormData(prevState => ({
-        //     ...prevState,
-        //     [name]: value
-        // }))
+        const {name, value} = target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }))
     }
-
-
-    useEffect(() => {
-        setPwMatch(password === confirm)
-    }, [password, confirm])
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        UsersService.login(login, password)
+            .then(userToken => {
+                if (userToken) {
+                    userCtx.setUserToken(userToken)
+                    navigate(`${BASE_URL}/home`)
+                    return null;
+                }
+                setIncorrentLogin(true)
+                return null;
+            })
     }
 
-    const errorMsgsDom = errorMessage.map(m => (
-        <div key={m.message}>{m.message}</div>
-    ))
-    let test = 1;
-
     return (
-        <div className='login-page'>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input onChange={onChange} autoFocus placeholder='Login' type="text" name='login' value={login}/>
-                </div>
-                <div>
-                    <input onChange={onChange} type="password" placeholder='Password'
-                           name='password' value={password}/>
-                </div>
-                <div>
-                    <input onChange={onChange} type="password" placeholder='Confirm password'
-                           name='confirm' value={confirm}/>
-                </div>
-                <div className="errors-container">
+        <form onSubmit={handleSubmit} className='login-page'>
+            <div>
+                <input onChange={onChange} autoFocus
+                       placeholder='Login' type="text" name='login' value={login}/>
+            </div>
+            <div>
+                <input onChange={onChange} type="password" placeholder='Password'
+                       name='password' value={password}/>
+            </div>
+            {incorrentLogin && <div>
+                Incorrect password
+            </div>}
+            <button type='submit' disabled={!login && !password}>Login</button>
+        </form>
+    );
+};
 
-                    {!!errorMessage.length && <div className='error-msg'>{errorMsgsDom}</div>}
-                    {!pwMatch && <div className='error-msg'>Passwords does not match</div>}
-                </div>
-                <button type='submit' disabled={!login || !pwMatch || !!errorMessage.length}>Submit</button>
-            </form>
-        </div>
-    )
-}
+export default Login;

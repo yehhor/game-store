@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Game} from "../../../types/Game";
 import {GameService} from "../../../services/GameService";
 

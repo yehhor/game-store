@@ -11,7 +11,9 @@ import 'swiper/css'
 import {Cart} from "./components/Cart";
 import {useClickOutside} from "./components/useClickOutside";
 import {BASE_URL} from "./index";
-import {Login} from "./Pages/Login";
+import {Registration} from "./Pages/Registration";
+import Login from "./Pages/Login";
+import RequireAuth from "./components/RequireAuth";
 
 
 function App() {
@@ -23,12 +25,22 @@ function App() {
         <div className="App">
             <Header/>
             <AnimatePresence exitBeforeEnter>
-                <Routes location={location} key={location.pathname}>
-                    <Route path={`${BASE_URL}/home`} element={<Home/>}/>
+                <Routes key={location.pathname}>
+                    <Route path={`${BASE_URL}/reg`} element={<Registration/>}/>
                     <Route path={`${BASE_URL}/login`} element={<Login/>}/>
+                    <Route path={`${BASE_URL}/home`} element={
+                        <RequireAuth>
+                            <Home/>
+                        </RequireAuth>
+                    }/>
                     <Route path={`${BASE_URL}/contacts`} element={<Contacts/>}/>
-                    <Route path={`${BASE_URL}/game/:gameId`} element={<GameDetails/>}/>
-                    <Route path={BASE_URL} element={<Navigate to={`${BASE_URL}/home`} />}/>
+                    <Route path={`${BASE_URL}/game/:gameId`} element={
+                        <RequireAuth>
+                            <GameDetails/>
+                        </RequireAuth>
+                    }/>
+                    <Route path={BASE_URL} element={<Navigate to={`${BASE_URL}/home`}/>}/>
+
                 </Routes>
             </AnimatePresence>
 
