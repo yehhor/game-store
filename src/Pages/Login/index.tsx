@@ -33,6 +33,7 @@ const Login = () => {
 
     return (
         <form onSubmit={handleSubmit} className='login-page'>
+            <h1>Login</h1>
             <div>
                 <input onChange={onChange} autoFocus
                        placeholder='Login' type="text" name='login' value={login}/>

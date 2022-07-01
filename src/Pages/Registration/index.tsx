@@ -15,14 +15,16 @@ type FormData = {
 export const Registration = () => {
     const [{login, password, confirm}, setFormData] = useState<FormData>({login: '', password: '', confirm: ''})
     const [loading, setLoading] = useState(false)
-    const [loginError, setLoginError] = useState<boolean>(false)
+    const [isLoginValid, setIsLoginValid] = useState<boolean>(false)
     const {pwErrors, pwMatch} = usePwValidation({password, confirm})
     const navigate = useNavigate();
 
     const onChange = ({target}: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = target;
         if(name ==='login'){
-            UsersService.isUserNameAvailable(value).then(setLoginError)
+            UsersService.isUserNameAvailable(value).then(isValid =>{
+                setIsLoginValid(isValid)
+            })
         }
         setFormData(prevState => ({
             ...prevState,
@@ -45,10 +47,16 @@ export const Registration = () => {
     return (
         <div className='login-page'>
             <form onSubmit={handleSubmit}>
+                <h1>Register</h1>
                 <div>
                     <input onChange={onChange} autoFocus
-                           className={loginError ? 'error' : ''}
+                           className={isLoginValid ? 'error' : ''}
                            placeholder='Login' type="text" name='login' value={login}/>
+                    {
+                        !isLoginValid &&  <div className="error">
+                            This login is already taken.
+                        </div>
+                    }
                 </div>
                 <div>
                     <input onChange={onChange} type="password" placeholder='Password'
@@ -62,7 +70,7 @@ export const Registration = () => {
                     {!!pwErrors.length && <div className='error-msg'>{errorMsgsDom}</div>}
                     {!pwMatch && <div className='error-msg'>Passwords does not match</div>}
                 </div>}
-                <button type='submit' disabled={!login || !pwMatch || !!pwErrors.length || !loginError}>Register</button>
+                <button type='submit' disabled={!login || !pwMatch || !!pwErrors.length || !isLoginValid}>Register</button>
             </form>
         </div>
     )
