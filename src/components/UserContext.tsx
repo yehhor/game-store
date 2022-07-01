@@ -1,4 +1,4 @@
-import {createContext, PropsWithChildren, useEffect, useState} from "react";
+import {createContext, PropsWithChildren, useEffect, useMemo, useState} from "react";
 import {Game} from "../types/Game";
 import {UsersService, UserToken} from "../services/UserService";
 
@@ -31,21 +31,16 @@ function UserContextProvider(props: PropsWithChildren) {
     const [user, setUser] = useState<User | null>(null);
     const [cart, setCart] = useState<Cart>({});
     const [token, setToken] = useState('')
-
-    useEffect(() => {
+    useMemo(() => {
         const userToken = UsersService.getCurrentSession();
         if (userToken) setUserToken(userToken)
+        return true;
     }, [])
 
     const addGameToCart = (game: Game) => setCart(prevCart => ({
         ...prevCart,
         [game.id]: game
     }))
-
-    const setUserToken = ({user, token}: UserToken) => {
-        setUser(user);
-        setToken(token.token)
-    }
 
     const logout = () => {
         setUser(null)
@@ -66,6 +61,11 @@ function UserContextProvider(props: PropsWithChildren) {
     const isInCart = (game: Game) => !!cart[game.id]
 
     const getTotalPrice = () => Object.values(cart).reduce((p, c) => p + 2.99, 0)
+
+    function setUserToken({user, token}: UserToken) {
+        setUser(user);
+        setToken(token.token)
+    }
 
     const contextValue = {
         user,

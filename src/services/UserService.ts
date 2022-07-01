@@ -1,6 +1,7 @@
 import {apiProvider} from "../utilities/HttpProvider";
 import {Game} from "../types/Game";
 
+const API_KEY = '$2b$10$t9rdWGrf6IPRmhEf2LSdHOnrIxDIBRLjkpJKwQLY729ukQ/tzN7/m'
 const USERS_URL = 'USERS'
 const TOKENS_URL = 'TOKENS'
 const CURRENT_SESSION = 'SESSION'
