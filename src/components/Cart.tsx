@@ -9,7 +9,7 @@ type Props = {
 
 export const Cart = React.forwardRef<HTMLDivElement, Props>(({cartOpen}, ref) => {
     const {cart, removeGameFromCart, getTotalPrice} = useContext(UserContext)
-
+    console.log(cart);
     const games = Object.values(cart).map(g => (
         <li key={g.id}>
             <span onClick={(e) => {

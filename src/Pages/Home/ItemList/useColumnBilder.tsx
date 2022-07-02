@@ -1,5 +1,5 @@
 import {ReactElement, useContext, useEffect, useState} from "react";
-import ItemCard, {GameCardProps} from "./ItemCard";
+import ItemCard from "./ItemCard";
 import {Game} from "../../../types/Game";
 import {useNavigate} from "react-router-dom";
 import {BASE_URL} from "../../../index";
@@ -18,6 +18,7 @@ const UseColumnBilder = ({gamesData}: Prop) => {
         const [columns, setColumns] = useState<ReactElement[]>([])
         const columnsCount = UseGrid({itemCount: gamesData.length, itemWidth: ITEM_WIDTH})
         const {addGameToCart, removeGameFromCart, isInCart, cart} = useContext(UserContext);
+
         useEffect(() => {
             const gamesToDisplay = gamesData.map(game => (
                 <ItemCard key={game.id}
@@ -40,7 +41,7 @@ const UseColumnBilder = ({gamesData}: Prop) => {
                         {column}
                     </div>
                 )));
-        }, [columnsCount, gamesData])
+        }, [columnsCount, gamesData, cart])
 
         return columns
     }

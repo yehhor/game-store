@@ -1,17 +1,23 @@
-import {apiProvider} from "../utilities/HttpProvider";
-import {Game} from "../types/Game";
+import {Cart} from "../components/UserContext";
 
 const API_KEY = '$2b$10$t9rdWGrf6IPRmhEf2LSdHOnrIxDIBRLjkpJKwQLY729ukQ/tzN7/m'
 const USERS_URL = 'USERS'
+const CART = 'CART'
 const TOKENS_URL = 'TOKENS'
 const CURRENT_SESSION = 'SESSION'
 const SALT = 'SALT__';
+// localStorage.removeItem(USERS_URL)
+// localStorage.removeItem(TOKENS_URL)
 const users: { [key: string]: User } = JSON.parse(
     localStorage.getItem(USERS_URL) || '{}'
 )
 const tokens: { [key: string]: string } = JSON.parse(
     localStorage.getItem(TOKENS_URL) || '{}'
 )
+const carts: { [key: string]: Cart } = JSON.parse(
+    localStorage.getItem(CART) || '{}'
+)
+
 export type User = {
     id: string,
     name: string,
@@ -69,6 +75,18 @@ export class UsersService {
         return JSON.parse(localStorage.getItem(CURRENT_SESSION) || 'null')
     }
 
+    static getCartByUser(user: User): Promise<Cart> {
+        return new Promise(resolve => resolve(carts[user.id] || {}))
+    }
+
+    static updateCart(user: User, cart: Cart): Promise<Cart> {
+        return new Promise(resolve => {
+            carts[user.id] = cart;
+            updateCarts();
+            resolve(cart)
+        })
+    }
+
     private static createNewUser(name: string, password: string): Promise<User> {
         const user = assembleUser(name, password)
         users[user.id] = user;
@@ -99,7 +117,7 @@ export class UsersService {
 }
 
 function generateToken() {
-    return btoa(`${SALT}${new Date()}`)
+    return btoa(unescape(encodeURIComponent(`${SALT}${new Date()}`)))
 }
 
 function codePassword(password: string): string {
@@ -108,6 +126,10 @@ function codePassword(password: string): string {
 
 function decodePassword(hash: string): string {
     return atob(hash).split(SALT)[1]
+}
+
+function updateCarts() {
+    localStorage.setItem(CART, JSON.stringify(carts))
 }
 
 function updateTokensInLocalStorage() {
@@ -123,6 +145,7 @@ function assembleUser(name: string, password: string): User {
         id: new Date().toString(),
         name,
         password: codePassword(password),
-        favoriteGames: []
+        favoriteGames: [],
     }
 }
+

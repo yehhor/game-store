@@ -18,7 +18,7 @@
     position: relative;
     height: 150px;
     overflow: hidden;
-    transition: .15s ease-ingit ;
+    transition: .2s ease-in ;
     &:hover{
       height: 200px;
       img{
@@ -35,7 +35,7 @@
     text-align: left;
     padding: 15px;
     .hover-show {
-      transition: .15s, opacity .15s .1s;
+      transition: .25s, opacity .15s .1s;
       overflow: hidden;
       opacity: 0;
     }

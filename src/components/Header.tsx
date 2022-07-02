@@ -44,11 +44,12 @@ function Header() {
                 {
                     !user && <Link to={`${BASE_URL}/reg`}>Reg</Link>
                 }
-                <div className="cart-link">
-                     <span onClick={e => {
-                         e.stopPropagation();
-                         setCartOpen(true)
-                     }} className='hover-lighter'>Cart</span>
+                <div onClick={e => {
+                    e.stopPropagation();
+                    setCartOpen(true)
+                }}
+                     className="cart-link">
+                    <span className='hover-lighter'>Cart</span>
                     <span className='cart-items'> ({cartItems})</span>
                 </div>
             </header>

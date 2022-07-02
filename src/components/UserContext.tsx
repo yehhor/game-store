@@ -1,10 +1,6 @@
 import {createContext, PropsWithChildren, useEffect, useMemo, useState} from "react";
 import {Game} from "../types/Game";
-import {UsersService, UserToken} from "../services/UserService";
-
-export interface User {
-    name: string
-}
+import {User, UsersService, UserToken} from "../services/UserService";
 
 export type Cart = {
     [key: string]: Game,
@@ -37,6 +33,18 @@ function UserContextProvider(props: PropsWithChildren) {
         return true;
     }, [])
 
+    useEffect(() => {
+        if (user)
+            UsersService.getCartByUser(user).then(cart => {
+                setCart(cart);
+            })
+    }, [user])
+
+    useEffect(() => {
+        if (user)
+            UsersService.updateCart(user, cart).then()
+    }, [cart])
+
     const addGameToCart = (game: Game) => setCart(prevCart => ({
         ...prevCart,
         [game.id]: game
@@ -45,6 +53,7 @@ function UserContextProvider(props: PropsWithChildren) {
     const logout = () => {
         setUser(null)
         setToken('')
+        setCart({})
         UsersService.removeCurrentSession();
     }
 

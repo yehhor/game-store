@@ -16,7 +16,10 @@ export interface GameCardProps {
 function ItemCard({game, handleClick, removeGameFromCart, addGameToCart, isGameInCart, cart}: GameCardProps) {
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState('auto')
-    const isInCart = useMemo(() => isGameInCart(game), [cart])
+    const isInCart = useMemo(() => {
+        console.log('cart changed ', cart);
+        return isGameInCart(game)
+    }, [cart])
 
     useEffect(() => {
         const {current} = ref;
