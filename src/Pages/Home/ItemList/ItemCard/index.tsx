@@ -7,19 +7,15 @@ import {Cart} from "../../../../components/UserContext";
 export interface GameCardProps {
     game: Game,
     handleClick: () => void,
-    isGameInCart: (game: Game) => boolean,
+    isInCart: boolean
     removeGameFromCart: (game: Game) => void,
     addGameToCart: (game: Game) => void,
     cart: Cart
 }
 
-function ItemCard({game, handleClick, removeGameFromCart, addGameToCart, isGameInCart, cart}: GameCardProps) {
+function ItemCard({game, handleClick, removeGameFromCart, addGameToCart, isInCart, cart}: GameCardProps) {
     const ref = useRef<HTMLDivElement>(null)
     const [height, setHeight] = useState('auto')
-    const isInCart = useMemo(() => {
-        console.log('cart changed ', cart);
-        return isGameInCart(game)
-    }, [cart])
 
     useEffect(() => {
         const {current} = ref;
@@ -60,7 +56,7 @@ function ItemCard({game, handleClick, removeGameFromCart, addGameToCart, isGameI
                 >
                     <div className='game-title'>{game.name}</div>
                     <div className="platforms">
-                        <PlatformsBadge platforms={game.platforms.map(p => p.platform.slug)}/>
+                        <PlatformsBadge platforms={(game.platforms || []).map(p => p.platform.slug)}/>
                     </div>
                     <div className="release-date">
                         Released: {game.released}

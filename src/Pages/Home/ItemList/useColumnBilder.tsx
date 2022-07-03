@@ -1,4 +1,4 @@
-import {ReactElement, useContext, useEffect, useState} from "react";
+import {ReactElement, useContext, useEffect, useMemo, useState} from "react";
 import ItemCard from "./ItemCard";
 import {Game} from "../../../types/Game";
 import {useNavigate} from "react-router-dom";
@@ -20,15 +20,16 @@ const UseColumnBilder = ({gamesData}: Prop) => {
         const {addGameToCart, removeGameFromCart, isInCart, cart} = useContext(UserContext);
 
         useEffect(() => {
-            const gamesToDisplay = gamesData.map(game => (
-                <ItemCard key={game.id}
-                          handleClick={() => redirectToGame(game.id)}
-                          addGameToCart={addGameToCart}
-                          isGameInCart={isInCart}
-                          removeGameFromCart={removeGameFromCart}
-                          cart={cart}
-                          game={game}/>
-            ))
+            const gamesToDisplay = gamesData.map(game => {
+                const isGameInCart = isInCart(game)
+                return  <ItemCard key={game.id}
+                                  handleClick={() => redirectToGame(game.id)}
+                                  addGameToCart={addGameToCart}
+                                  isInCart={isGameInCart}
+                                  removeGameFromCart={removeGameFromCart}
+                                  cart={cart}
+                                  game={game}/>
+            })
             const columnsToBePopulated = new Array(columnsCount).fill('').map(() => []) as ReactElement[][]
             let currentColumn = 0;
             gamesToDisplay.forEach(game => {
