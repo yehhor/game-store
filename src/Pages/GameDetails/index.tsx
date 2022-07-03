@@ -8,6 +8,7 @@ import PlatformsBadge from "../../components/PlatformsBadge";
 import {SwiperOptions, Navigation, Autoplay} from "swiper";
 import Transition from "../../components/Transition";
 import {UserContext} from "../../components/UserContext";
+import {BASE_URL} from "../../index";
 
 type Props = {}
 
@@ -52,7 +53,7 @@ const GameDetails = (props: Props) => {
             {loading && 'loading'}
             {!loading && <div className='game-details-container'>
                 <div className="title">
-                    <Link to={'../'} className='back'>Back to the store</Link>
+                    <Link to={`${BASE_URL}/home`} className='back'>Back to the store</Link>
                     <span className='game-title'>{game?.name}</span>
                 </div>
                 {

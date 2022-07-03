@@ -28,8 +28,7 @@ const platformIcons: Record<string, React.ReactNode> = {
     nintendo: <SiNintendoswitch/>,
 };
 
-function PlatformsBadge({platforms}: Props) {
-
+function PlatformsBadge({platforms = []}: Props) {
     const platformsToRender = platforms.map(p => (
         <span key={p} style={{marginRight: 2}}>
             {platformIcons[p]}
