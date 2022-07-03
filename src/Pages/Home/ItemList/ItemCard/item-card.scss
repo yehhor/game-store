@@ -1,0 +1,64 @@
+.game-card-container {
+  width: 350px; /*is used in js for grid*/
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  color: #ccc;
+  margin: 15px;
+  .add-to-cart {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 800;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .image-container {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    transition: .2s ease-in ;
+    &:hover{
+      height: 200px;
+      img{
+        transform: scale(1.05);
+      }
+    }
+    img {
+      width: 100%;
+      vertical-align: bottom;
+      transition: .15s ease-in-out;
+    }
+  }
+  .description {
+    text-align: left;
+    padding: 15px;
+    .hover-show {
+      transition: .25s, opacity .15s .1s;
+      overflow: hidden;
+      opacity: 0;
+    }
+    &:not(:hover) .hover-show.height-set {
+      height: 0!important;
+    }
+
+    &:hover .hover-show {
+      opacity: 100%;
+    }
+    .game-title {
+      margin-top: 15px;
+      font-size: 30px;
+      text-align: left;
+      font-weight: 800;
+    }
+    .release-date, .genres {
+      font-size: 18px;
+
+    }
+  }
+  .title-line {
+    display: flex;
+    justify-content: space-between;
+  }
+}

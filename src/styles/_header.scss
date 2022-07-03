@@ -1,0 +1,50 @@
+header {
+  padding: 30px 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: #151515;
+  form {
+    button {
+      background-color: transparent;
+      border: none;
+      color: #ccc;
+    }
+  }
+  a {
+    margin: 5px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+    &:visited {
+      color: inherit;
+    }
+  }
+  .search {
+    width: 60%;
+    button {
+      cursor: pointer;
+
+    }
+    input {
+      height: 45px;
+      width: 90%;
+      text-indent: 15px;
+      line-height: 30px;
+      border-radius: 15px;
+      font-size: 25px;
+      margin-right: 10px;
+
+    }
+
+  }
+}
