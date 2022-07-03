@@ -12,7 +12,7 @@ const UseGrid = ({itemCount, itemWidth}: Props) => {
     const [columnsCount, setColumnsCount] = useState(1)
 
     useEffect(() => {
-        const cardWith = 390; //350 + 30 margin
+        const cardWith = 400; //350 + 30 margin
         setColumnsCount(Math.floor(windowWidth / cardWith));
     }, [windowWidth, itemCount, itemWidth])
     return columnsCount

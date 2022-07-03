@@ -4,18 +4,23 @@ import {SearchContext, SearchContextType} from "../../../components/SearchContex
 import Transition from "../../../components/Transition";
 import useGamesData from "./useGamesData";
 import useColumnBilder from "./useColumnBilder";
+import useGenres from "./useGenres";
+import FiltersPicker from "./FiltersPicker";
 
 
 function ItemList() {
     const [page, setPage] = useState(1);
     const {text} = useContext(SearchContext) as SearchContextType
-    const {gamesData, loading} = useGamesData({text, page})
+    const {genres, setSelectedGenres, selectedGenres} = useGenres();
+    const {gamesData, loading} = useGamesData({text, page, genres: selectedGenres})
     const columns = useColumnBilder({gamesData})
     return (
         <>
-            <h1>Top Trending</h1>
-            <Transition direction='right' className='game-cards-container'>
-                {loading ? 'loading' : columns}
+            <Transition direction='right'>
+                <FiltersPicker filters={genres} onSelected={setSelectedGenres} />
+                <div className='game-cards-container'>
+                    {loading ? 'loading' : columns}
+                </div>
             </Transition>
         </>
 

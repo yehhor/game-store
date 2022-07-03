@@ -2,6 +2,7 @@ import {apiProvider} from "../utilities/HttpProvider";
 import {Game} from "../types/Game";
 
 const GAMES_URL = 'games'
+const GENRES_URL = 'genres'
 const PAGE_SIZE = String(15);
 
 interface ListResponse<T> {
@@ -13,10 +14,20 @@ interface ListResponse<T> {
 export class GameService {
 
     static getGames(params: Record<string, string>) {
+        const nonEmptyParams = Object.entries(params)
+            .filter(([, v]) => v)
+            .reduce((acc, [k, v]) => ({...acc, [k]: v}), {})
         return apiProvider.get<ListResponse<Game>>(GAMES_URL, {
             page_size: PAGE_SIZE,
-            ...params,
+            ...nonEmptyParams,
             search_precise: String(false)
+        })
+    }
+
+    static getGenres() {
+        return apiProvider.get<ListResponse<Genre>>(GENRES_URL, {
+            ordering: 'games_count',
+            page_size: '10',
         })
     }
 
@@ -25,10 +36,19 @@ export class GameService {
     }
 
     static getGameScreenshots(id: number | string) {
-        return apiProvider.get<ListResponse<{image: string}>>(`${GAMES_URL}/${id}/screenshots`, {
+        return apiProvider.get<ListResponse<{ image: string }>>(`${GAMES_URL}/${id}/screenshots`, {
             page: '1',
             page_size: '10'
         })
             .then(screenshots => screenshots.results.map(i => i.image))
     }
+}
+
+export type Genre = {
+    id: number,
+    name: string,
+    slug: string,
+    image_background: string,
+    games_count: number
+
 }
