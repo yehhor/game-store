@@ -3,7 +3,6 @@ import {GameService, Genre} from "../../../services/GameService";
 
 const useGenres = () => {
     const [genres, setGenres] = useState<Genre[]>([])
-    const [selectedGenres, setSelectedGenres] = useState<string[]>([])
     useEffect(() => {
         (async () => {
             const genres = await GameService.getGenres();
@@ -11,7 +10,7 @@ const useGenres = () => {
         })()
 
     }, [])
-    return {genres, selectedGenres, setSelectedGenres}
+    return genres
 };
 
 export default useGenres;

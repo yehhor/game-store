@@ -1,30 +1,32 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import {Game} from "../../../types/Game";
 import {GameService} from "../../../services/GameService";
+import usePaging from "./usePaging";
+import {SearchContext, SearchContextType} from "../../../components/SearchContext";
 
-type Props = {
-    text: string,
-    page: {page: number},
-    perPage: number,
-    genres: string[]
-}
-
-const UseGamesData = ({text, page, perPage, genres}: Props) => {
+const UseGamesData = () => {
+    const {text} = useContext(SearchContext) as SearchContextType
     const [gamesData, setGames] = useState<Game[]>([])
+    const {page, setPage, perPage, setPerPage} = usePaging()
     const [loading, setLoading] = useState(true)
+    const [selectedGenres, setSelectedGenres] = useState<string[]>([])
     const [pagesCount, setPagesCount] = useState(0)
+    const prevText = usePrevious(text);
     useEffect(() => {
         setLoading(true);
+        //trash
+        if (prevText !== text) {
+            return setPage({page: 1})
+        }
         GameService.getGames(
             {
                 page: String(page.page),
                 search: text,
-                genres: genres.join(','),
+                genres: selectedGenres.join(','),
                 page_size: String(perPage)
             }
         )
             .then(games => {
-                debugger
                 setPagesCount(Math.floor(games.count / perPage))
                 return games
             })
@@ -32,11 +34,30 @@ const UseGamesData = ({text, page, perPage, genres}: Props) => {
             .finally(() => setLoading(false))
     }, [page, text])
 
+    const selectedGenresChanged = (genres: string[]) => {
+        console.log('genres changed');
+        setSelectedGenres(genres);
+        setPage({page: 1})
+    }
+
     return {
         gamesData,
         loading,
-        pagesCount
+        pagesCount,
+        setPage,
+        page,
+        setPerPage,
+        perPage,
+        setGenre: selectedGenresChanged
     }
 };
 
 export default UseGamesData;
+
+function usePrevious(value: any) {
+    const ref = useRef();
+    useEffect(() => {
+        ref.current = value;
+    });
+    return ref.current;
+}

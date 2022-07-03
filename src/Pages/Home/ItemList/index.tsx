@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import './item-list.scss'
 import {SearchContext, SearchContextType} from "../../../components/SearchContext";
 import Transition from "../../../components/Transition";
@@ -8,31 +8,25 @@ import useGenres from "./useGenres";
 import FiltersPicker from "./FiltersPicker";
 import {AnimatePresence} from "framer-motion";
 import ReactPaginate from "react-paginate";
-import usePaging from "./usePaging";
 
 
 function ItemList() {
-    const {page, perPage, setPage} = usePaging();
-    const {text} = useContext(SearchContext) as SearchContextType
-    const {genres, setSelectedGenres, selectedGenres} = useGenres();
-    const {gamesData, loading, pagesCount} = useGamesData({text, page, perPage, genres: selectedGenres})
+    const genres = useGenres();
+    const {gamesData, loading, pagesCount, page, setPage, setGenre}
+        = useGamesData()
     const columns = useColumnBilder({gamesData})
     const handlePageClick = (pagingEvent: { selected: number }) => {
         setPage({page:++pagingEvent.selected})
     }
 
-    useEffect(() => {
-        setPage({page: 1});
-    }, [selectedGenres])
-
-
     return (
         <div className='container-wrapper'>
             <Transition direction='right'>
-                <FiltersPicker filters={genres} onSelected={setSelectedGenres}/>
+                <FiltersPicker filters={genres} onSelected={setGenre}/>
                 <div className='game-cards-container'>
                     <AnimatePresence exitBeforeEnter>
                         {loading ? <span>Loading</span> : columns}
+                        {!loading && gamesData.length === 0 && <span key={'no games'}>No games found</span>}
                     </AnimatePresence>
                 </div>
                 <ReactPaginate
