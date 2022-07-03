@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {BASE_URL} from "../../../index";
 import UseGrid from "./useGrid";
 import {UserContext} from "../../../components/UserContext";
+import Transition from "../../../components/Transition";
 
 const ITEM_WIDTH = 380; // 350 + 30 margin
 
@@ -38,9 +39,9 @@ const UseColumnBilder = ({gamesData}: Prop) => {
             })
             setColumns(
                 columnsToBePopulated.map((column, index) => (
-                    <div key={index} className='Column'>
+                    <Transition key={index} className='Column' direction='right'>
                         {column}
-                    </div>
+                    </Transition>
                 )));
         }, [columnsCount, gamesData, cart])
 

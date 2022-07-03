@@ -1,5 +1,12 @@
-.game-cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.container-wrapper {
+  .game-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 500px;
+  }
+  .pagination {
+    position: sticky;
+    bottom: 0;
+  }
 }

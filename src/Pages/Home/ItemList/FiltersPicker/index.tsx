@@ -21,11 +21,14 @@ const FiltersPicker = (props: Props) => {
     }
 
     useEffect(() => {
-        props.onSelected(
-            Object.entries(selected)
-                .filter(([k, v]) => v)
-                .map(([k]) => k)
-        )
+        if (Object.keys(selected).length){
+            console.log(selected);
+            props.onSelected(
+                Object.entries(selected)
+                    .filter(([k, v]) => v)
+                    .map(([k]) => k)
+            )
+        }
     }, [selected])
 
     const filters = props.filters.map(f => (

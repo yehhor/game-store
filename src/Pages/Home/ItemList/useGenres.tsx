@@ -11,7 +11,7 @@ const useGenres = () => {
         })()
 
     }, [])
-    return {genres: genres, selectedGenres, setSelectedGenres}
+    return {genres, selectedGenres, setSelectedGenres}
 };
 
 export default useGenres;
